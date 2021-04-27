@@ -1,0 +1,2 @@
+# GTool
+Game Scripts Tool
