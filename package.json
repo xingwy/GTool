@@ -1,0 +1,25 @@
+{
+  "name": "gtool",
+  "version": "1.0.0",
+  "description": "GTool 服务工具",
+  "main": "./build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xingwy/GTool.git"
+  },
+  "keywords": [
+    "tool"
+  ],
+  "author": "xingwy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xingwy/GTool/issues"
+  },
+  "homepage": "https://github.com/xingwy/GTool#readme",
+  "devDependencies": {
+    "@types/node": "^15.0.1"
+  }
+}
