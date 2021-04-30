@@ -9,12 +9,12 @@ class Protocols {
         this._protocols = new Array<any>();
     }
 
-    public register(v: any): void {
-        this._protocols.push(v);
+    public register(name: string, typle: any): void {
     }
-    public get(): void {
+    public export(): void {
         console.log(this._protocols);
     }
 }
 
-export default Protocols.instance.register.bind(Protocols.instance)
+export const Register = Protocols.instance.register.bind(Protocols.instance)
+export const Export = Protocols.instance.export.bind(Protocols.instance)
