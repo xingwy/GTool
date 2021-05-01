@@ -1,5 +1,13 @@
 import { Export } from "./protocols/base/protocols";
 import * as DBModel from "./models/dbModel";
 
-console.log(DBModel.Account);
-console.log(DBModel.Accounts);
+const start = async () => {
+    try {
+        for (let key in DBModel) {
+            console.log(key)
+        }
+    } catch (error) {
+        
+    }
+}
+start();
