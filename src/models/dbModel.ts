@@ -1,5 +1,4 @@
-import { number, boolean, string } from "../struct/base";
-import { tuple } from "../struct/tuple";
+import { number, boolean, string, tuple } from "../struct/base";
 
 export const Account = tuple(
     "Account",
