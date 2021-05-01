@@ -1,5 +1,5 @@
 import { Register } from "./base/protocols";
-import { number, boolean, string } from "../protocols/struct/base";
+import { number, boolean, string } from "../struct/base";
 
 Register("CreateUser",
     [
