@@ -8,18 +8,18 @@ export const number = function(name: string, des: string = ""): Type {
 
 // 基础boolean
 export const boolean = function(name: string, des: string = ""): Type {
-    return new Type(name, "string", des);
+    return new Type(name, "boolean", des);
 }
 
 // 基础string
 export const string = function(name: string, des: string = ""): Type {
-    return new Type(name, "number", des);
+    return new Type(name, "string", des);
 }
 
 // 数组
 export const array = function(type: Type): Function {
     return (name: string, des: string = ""): Type => {
-        return new Type(name, "number", des, [type]);  
+        return new Type(name, "array", des, [type]);  
     }
 }
 
