@@ -1,6 +1,8 @@
+import * as DBModel from "./dbModel";
 import { Type } from "../struct/type";
 
-export const createFromType = (type: Type) => {
+
+const createFromType = (type: Type): string => {
     // 组成fields
     let fieldStr = "";
     let typeStr = "";
@@ -23,4 +25,16 @@ export const createFromType = (type: Type) => {
     fieldStr += `}\n`;
     typeStr += `]\n\n`;
     return fieldStr + typeStr;
+}
+
+export const run = async () => {
+    try {
+        // 导出数据库结构模型
+        let content = "";
+        Object.values(DBModel).forEach((v: Type) => {
+            content += createFromType(v);
+        })
+    } catch (e) {
+        console.error(`导出数据结构模型出错，error:${e.message}, stack:${e.stack}`);
+    }
 }
