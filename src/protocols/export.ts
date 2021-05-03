@@ -1,21 +1,32 @@
+import * as path from "path";
+import { Type } from "../struct/type";
+import { write } from "../util/write";
 import { Protocol } from "../struct/protocol";
 
-class Cols {
-    private static _instance: Cols = new Cols();
-    public static get instance(): Cols {
-        return this._instance;
-    }
+import * as GatewayProtocols from "./server/gateway";
 
-    private _protocols: Array<Protocol>;
-    constructor() {
-        this._protocols = new Array<Protocol>();
-    }
-
-    public register(protocol: Protocol): void {
-        this._protocols.push(protocol);
-    }
-    public export(): void {
-        console.log(this._protocols);
-    }
+const createFromProtocol = (protocol: Protocol): string => {
+    return "";   
 }
 
+export const run = async () => {
+    try {
+        // 包装头、尾
+        let headStr = "";
+        let tailStr = "";
+        headStr += `/**\n`;
+        headStr += ` * 协议约定模型文件\n`;
+        headStr += ` */\n\n`;
+        headStr += `declare namespace Protocols {\n`;
+        headStr += `\n`;
+        // 导出协议模型
+        let content = "";
+        Object.values(GatewayProtocols).forEach((v: Protocol) => {
+        })
+        tailStr += `}`;
+        let dir = path.join(__filename, "../../../export/protocols.d.ts");
+        await write(dir, headStr + content + tailStr);
+    } catch (e) {
+        console.error(`导出协议模型出错，error:${e.message}, stack:${e.stack}`);
+    }
+}

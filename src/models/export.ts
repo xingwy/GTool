@@ -44,13 +44,13 @@ const createFromType = (type: Type): string => {
 
 export const run = async () => {
     try {
-         // 包装头、尾
+        // 包装头、尾
         let headStr = "";
         let tailStr = "";
         headStr += `/**\n`;
         headStr += ` * 数据库字段段映射模型文件\n`;
         headStr += ` */\n\n`;
-        headStr += ` declare namespace DBModel {\n`;
+        headStr += `declare namespace DBModel {\n`;
         headStr += `\n`;
         // 导出数据库结构模型
         let content = "";
