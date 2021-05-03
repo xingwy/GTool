@@ -38,7 +38,6 @@ const createFromType = (type: Type): string => {
     }
     fieldStr += `    }\n`;
     typeStr += `];\n\n`;
-
     
     return desStr + fieldStr + typeStr;
 }

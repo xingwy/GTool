@@ -1,5 +1,5 @@
-import { Console } from "node:console";
 import { Type } from "./type";
+import { Protocol } from "./protocol"
 
 // 基础number
 export const number = function(name: string, des: string = ""): Type {
@@ -26,4 +26,9 @@ export const array = function(type: Type): Function {
 // 组合
 export const tuple = function(name: string, array: Array<Type>, des: string = ""): Type {
     return new Type(name, "tuple", des, array);
+}
+
+// 协议
+export const register = function(name: string, code: number, type: Array<Type>) {
+    return new Protocol(name, code, type);
 }
