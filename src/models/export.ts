@@ -6,7 +6,6 @@ import { write } from "../util/write";
 
 const createFromType = (type: Type): string => {
     // 组成fields
-
     let desStr = "";
     let fieldStr = "";
     let typeStr = "";
@@ -19,7 +18,7 @@ const createFromType = (type: Type): string => {
 
     for (let index = 0; index < type.childsType.length; index++) {
         let child = type.childsType[index];
-        fieldStr +=`        ${child.name} = ${index},`;
+        fieldStr += `        ${child.name} = ${index},`;
         if (child.des) {
             fieldStr += `  // ${child.des}`;
         }
