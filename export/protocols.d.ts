@@ -32,10 +32,36 @@ declare namespace Protocols {
     }
     type CreateUserToCenterReply = [number];
 
+    // 创建角色（To Center）
+    const enum CreateUserToCenterFields {
+        uid = 0,
+        name = 1,
+        sex = 2,
+    }
+    type CreateUserToCenter = [number, string, number];
+
+    // 网关登录验证
+    const enum LoginCenterFields {
+        uid = 0,
+    }
+    type LoginCenter = [number];
+
     const enum GatewayProtocolCode {
-        CreateUser = 100000,  // 网关创建账户
-        GatewayLoginAuth = 100000,  // 网关登录验证
-        LoginCenterReply = 100000,  // 登录中心服返回
-        CreateUserToCenterReply = 100000,  // 创建账号返回（TO Center）
+        CreateUser = 0x100001,  // 网关创建账户
+        GatewayLoginAuth = 0x100002,  // 网关登录验证
+        LoginCenterReply = 0x100003,  // 登录中心服返回
+        CreateUserToCenterReply = 0x100004,  // 创建账号返回（TO Center）
+    }
+    const enum CenterProtocolCode {
+        CreateUserToCenter = 0x200001,  // 创建角色（To Center）
+        LoginCenter = 0x200002,  // 网关登录验证
+    }
+    interface ProtocolsTuple {
+        [GatewayProtocolCode.CreateUser]: CreateUser;
+        [GatewayProtocolCode.GatewayLoginAuth]: GatewayLoginAuth;
+        [GatewayProtocolCode.LoginCenterReply]: LoginCenterReply;
+        [GatewayProtocolCode.CreateUserToCenterReply]: CreateUserToCenterReply;
+        [CenterProtocolCode.CreateUserToCenter]: CreateUserToCenter;
+        [CenterProtocolCode.LoginCenter]: LoginCenter;
     }
 }

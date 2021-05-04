@@ -4,6 +4,7 @@ import { write } from "../util/write";
 import { Protocol } from "../struct/protocol";
 
 import * as GatewayProtocols from "./server/gateway";
+import * as CenterProtocols from "./server/center";
 
 const createFromProtocol = (protocol: Protocol): string => {
     let desStr = "";
@@ -38,23 +39,35 @@ const createFromProtocol = (protocol: Protocol): string => {
     return desStr + fieldStr + typeStr;
 }
 
-const builInterface = (name: string, protocols: any): string => {
-    let desStr = "";
-    
-    return desStr;
+const builProtocol = (name: string, protocols: Array<any>): string => {
+    let conetnt = "";
+    Object.values(protocols).forEach((v: Protocol) => {
+        conetnt += createFromProtocol(v);
+    })
+    return conetnt;
+}
+
+const builInterface = (name: string, protocols: Array<any>): string => {
+    let content = "";
+    Object.values(protocols).forEach((v: Protocol) => {
+        content += `        [${name}ProtocolCode.${v.name}]: ${v.name};\n`
+    })
+    return content;
 }
 
 const buildEnum = (name: string, protocols: Array<any>): string => {
     let content = "";
+    let offset = 1;
     content += `    const enum ${name}ProtocolCode {\n`;
     Object.values(protocols).forEach((v: Protocol) => {
-        content += `        ${v.name} = ${v.code.toString(16)},`;
+        content += `        ${v.name} = 0x${(v.code + offset).toString(16)},`;
+        offset++;
         if (v.des) {
             content += `  // ${v.des}`;
         }
         content += `\n`;
     })
-    content += `    }\n`;
+    content += `    }\n\n`;
     return content;
 }
 
@@ -70,12 +83,19 @@ export const run = async () => {
         headStr += `\n`;
         // 导出协议模型
         let content = "";
-        Object.values(GatewayProtocols).forEach((v: Protocol) => {
-            content += createFromProtocol(v);
-        })
-        // 导出类型类型interface
+        content += builProtocol("gateway", GatewayProtocols as any);
+        content += builProtocol("Center", CenterProtocols as any);
+
+        // 导出类型类型enum
         content += buildEnum("Gateway",GatewayProtocols as any);
-        content += builInterface("Gateway", GatewayProtocols);
+        content += buildEnum("Center",CenterProtocols as any);
+
+        // 导出interface
+        content += `    interface ProtocolsTuple {\n`;
+        content += builInterface("Gateway", GatewayProtocols as any);
+        content += builInterface("Center",CenterProtocols as any);
+        content += `    }\n`;
+
         tailStr += `}`
 
         let dir = path.join(__filename, "../../../export/protocols.d.ts");
