@@ -44,10 +44,18 @@ const builInterface = (name: string, protocols: any): string => {
     return desStr;
 }
 
-const buildEnum = (name: string, protocols: any): string => {
-    let desStr = "";
-
-    return desStr;
+const buildEnum = (name: string, protocols: Array<any>): string => {
+    let content = "";
+    content += `    const enum ${name}ProtocolCode {\n`;
+    Object.values(protocols).forEach((v: Protocol) => {
+        content += `        ${v.name} = ${v.code.toString(16)},`;
+        if (v.des) {
+            content += `  // ${v.des}`;
+        }
+        content += `\n`;
+    })
+    content += `    }\n`;
+    return content;
 }
 
 export const run = async () => {
@@ -66,8 +74,10 @@ export const run = async () => {
             content += createFromProtocol(v);
         })
         // 导出类型类型interface
-        content += buildEnum("GatewayProtocol",GatewayProtocols);
-        content += builInterface("GatewayProtocol", GatewayProtocols);
+        content += buildEnum("Gateway",GatewayProtocols as any);
+        content += builInterface("Gateway", GatewayProtocols);
+        tailStr += `}`
+
         let dir = path.join(__filename, "../../../export/protocols.d.ts");
         await write(dir, headStr + content + tailStr);
         console.info(`已经导出文件：${dir}`);

@@ -32,4 +32,10 @@ declare namespace Protocols {
     }
     type CreateUserToCenterReply = [number];
 
+    const enum GatewayProtocolCode {
+        CreateUser = 100000,  // 网关创建账户
+        GatewayLoginAuth = 100000,  // 网关登录验证
+        LoginCenterReply = 100000,  // 登录中心服返回
+        CreateUserToCenterReply = 100000,  // 创建账号返回（TO Center）
+    }
 }
