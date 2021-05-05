@@ -5,6 +5,8 @@ import { Protocol } from "../struct/protocol";
 
 import * as GatewayProtocols from "./server/gateway";
 import * as CenterProtocols from "./server/center";
+import * as WorldProtocols from "./server/world";
+import * as ClientProtocols from "./server/client";
 
 const createFromProtocol = (protocol: Protocol): string => {
     let desStr = "";
@@ -40,11 +42,11 @@ const createFromProtocol = (protocol: Protocol): string => {
 }
 
 const builProtocol = (name: string, protocols: Array<any>): string => {
-    let conetnt = "";
+    let content = "";
     Object.values(protocols).forEach((v: Protocol) => {
-        conetnt += createFromProtocol(v);
+        content += createFromProtocol(v);
     })
-    return conetnt;
+    return content;
 }
 
 const builInterface = (name: string, protocols: Array<any>): string => {
@@ -85,20 +87,26 @@ export const run = async () => {
         let content = "";
         content += builProtocol("gateway", GatewayProtocols as any);
         content += builProtocol("Center", CenterProtocols as any);
-
+        content += builProtocol("World", WorldProtocols as any);
+        content += builProtocol("Client", ClientProtocols as any);
+        
         // 导出类型类型enum
         content += buildEnum("Gateway",GatewayProtocols as any);
         content += buildEnum("Center",CenterProtocols as any);
+        content += buildEnum("World",WorldProtocols as any);
+        content += buildEnum("Client",ClientProtocols as any);
 
         // 导出interface
         content += `    interface ProtocolsTuple {\n`;
         content += builInterface("Gateway", GatewayProtocols as any);
         content += builInterface("Center",CenterProtocols as any);
+        content += builInterface("World",WorldProtocols as any);
+        content += builInterface("Client",ClientProtocols as any);
         content += `    }\n`;
 
         tailStr += `}`
 
-        let dir = path.join(__filename, "../../../export/protocols.d.ts");
+        let dir = path.join(__filename, "../../../export/protocol.d.ts");
         await write(dir, headStr + content + tailStr);
         console.info(`已经导出文件：${dir}`);
     } catch (e) {

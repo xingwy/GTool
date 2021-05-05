@@ -14,11 +14,11 @@ declare namespace Protocols {
     type CreateUser = [string, string, string, number];
 
     // 网关登录验证
-    const enum GatewayLoginAuthFields {
+    const enum GatewayAuthLoginFields {
         account = 0,
         password = 1,
     }
-    type GatewayLoginAuth = [string, string];
+    type GatewayAuthLogin = [string, string];
 
     // 登录中心服返回
     const enum LoginCenterReplyFields {
@@ -26,11 +26,17 @@ declare namespace Protocols {
     }
     type LoginCenterReply = [number];
 
-    // 创建账号返回（TO Center）
+    // 创建账号（TO Center）返回
     const enum CreateUserToCenterReplyFields {
         code = 0,
     }
     type CreateUserToCenterReply = [number];
+
+    // 登录世界服（TO World）返回
+    const enum LoginWorldReplyFields {
+        code = 0,
+    }
+    type LoginWorldReply = [number];
 
     // 创建角色（To Center）
     const enum CreateUserToCenterFields {
@@ -46,22 +52,58 @@ declare namespace Protocols {
     }
     type LoginCenter = [number];
 
+    // 登录到世界服
+    const enum LoginWorldFields {
+        uid = 0,
+        name = 1,
+        sex = 2,
+    }
+    type LoginWorld = [number, string, number];
+
+    // 用户登录返回
+    const enum AuthUserLoginReplyFields {
+        code = 0,
+    }
+    type AuthUserLoginReply = [number];
+
+    // 创建用户返回
+    const enum CreateUserReplyFields {
+        code = 0,
+    }
+    type CreateUserReply = [number];
+
     const enum GatewayProtocolCode {
         CreateUser = 0x100001,  // 网关创建账户
-        GatewayLoginAuth = 0x100002,  // 网关登录验证
+        GatewayAuthLogin = 0x100002,  // 网关登录验证
         LoginCenterReply = 0x100003,  // 登录中心服返回
-        CreateUserToCenterReply = 0x100004,  // 创建账号返回（TO Center）
+        CreateUserToCenterReply = 0x100004,  // 创建账号（TO Center）返回
+        LoginWorldReply = 0x100005,  // 登录世界服（TO World）返回
     }
+
     const enum CenterProtocolCode {
         CreateUserToCenter = 0x200001,  // 创建角色（To Center）
         LoginCenter = 0x200002,  // 网关登录验证
     }
+
+    const enum WorldProtocolCode {
+        LoginWorld = 0x300001,  // 登录到世界服
+    }
+
+    const enum ClientProtocolCode {
+        AuthUserLoginReply = 0x900001,  // 用户登录返回
+        CreateUserReply = 0x900002,  // 创建用户返回
+    }
+
     interface ProtocolsTuple {
         [GatewayProtocolCode.CreateUser]: CreateUser;
-        [GatewayProtocolCode.GatewayLoginAuth]: GatewayLoginAuth;
+        [GatewayProtocolCode.GatewayAuthLogin]: GatewayAuthLogin;
         [GatewayProtocolCode.LoginCenterReply]: LoginCenterReply;
         [GatewayProtocolCode.CreateUserToCenterReply]: CreateUserToCenterReply;
+        [GatewayProtocolCode.LoginWorldReply]: LoginWorldReply;
         [CenterProtocolCode.CreateUserToCenter]: CreateUserToCenter;
         [CenterProtocolCode.LoginCenter]: LoginCenter;
+        [WorldProtocolCode.LoginWorld]: LoginWorld;
+        [ClientProtocolCode.AuthUserLoginReply]: AuthUserLoginReply;
+        [ClientProtocolCode.CreateUserReply]: CreateUserReply;
     }
 }

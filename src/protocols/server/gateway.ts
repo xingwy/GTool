@@ -9,7 +9,7 @@ export const CreateUser = register("CreateUser", GatewayCode, [
     number("sex", "性别"),
 ], "网关创建账户");
 
-export const GatewayLoginAuth = register("GatewayLoginAuth", GatewayCode, [
+export const GatewayAuthLogin = register("GatewayAuthLogin", GatewayCode, [
     string("account", "账号"),
     string("password", "密码"),
 ], "网关登录验证");
@@ -20,4 +20,9 @@ export const LoginCenterReply = register("LoginCenterReply", GatewayCode, [
 
 export const CreateUserToCenterReply = register("CreateUserToCenterReply", GatewayCode, [
     number("code", "错误码"),
-], "创建账号返回（TO Center）");
+], "创建账号（TO Center）返回");
+
+export const LoginWorldReply = register("LoginWorldReply", GatewayCode, [
+    number("code", "错误码"),
+], "登录世界服（TO World）返回");
+

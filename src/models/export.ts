@@ -41,6 +41,30 @@ const createFromType = (type: Type): string => {
     return desStr + fieldStr + typeStr;
 }
 
+const buildType = (models: Array<Type>): string => {
+    let content = "";
+    Object.values(models).forEach((v: Type) => {
+        content += createFromType(v);
+    })
+    return content;
+}
+
+const buildDBKey = (models: Array<Type>): string => {
+    let content = "";
+    let key = "";
+    key += `    const enum MongoDBKey {\n`;
+    content += `    interface DBFieldsType {\n`;
+    Object.values(models).forEach((v: Type) => {
+        if (v.dbKey) {
+            key += `        ${v.dbKey} = "${v.dbKey}",\n`;
+            content += `        [MongoDBKey.${v.dbKey}]: ${v.name};\n`;
+        }
+    })
+    key += `    }\n\n`;
+    content += `    }\n`;
+    return key + content;
+}
+
 export const run = async () => {
     try {
         // 包装头、尾
@@ -49,15 +73,14 @@ export const run = async () => {
         headStr += `/**\n`;
         headStr += ` * 数据库字段段映射模型文件\n`;
         headStr += ` */\n\n`;
-        headStr += `declare namespace DBModel {\n`;
+        headStr += `declare namespace DBModels {\n`;
         headStr += `\n`;
         // 导出数据库结构模型
         let content = "";
-        Object.values(DBModel).forEach((v: Type) => {
-            content += createFromType(v);
-        })
+        content += buildType(DBModel as any);
+        content += buildDBKey(DBModel as any);
         tailStr += `}`;
-        let dir = path.join(__filename, "../../../export/DBdefine.d.ts");
+        let dir = path.join(__filename, "../../../export/model.d.ts");
         await write(dir, headStr + content + tailStr);
         console.info(`已经导出文件：${dir}`);
     } catch (e) {

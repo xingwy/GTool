@@ -24,8 +24,8 @@ export const array = function(type: Type): Function {
 }
 
 // 组合
-export const tuple = function(name: string, array: Array<Type>, des: string = ""): Type {
-    return new Type(name, "tuple", des, array);
+export const tuple = function(name: string, array: Array<Type>, des: string = "", dbKey: string = ""): Type {
+    return new Type(name, "tuple", des, array, dbKey);
 }
 
 // 协议
