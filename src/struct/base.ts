@@ -29,6 +29,6 @@ export const tuple = function(name: string, array: Array<Type>, des: string = ""
 }
 
 // 协议
-export const register = function(name: string, code: number, type: Array<Type>, des: string = "") {
+export const register = function(name: string, code: number| string, type: Array<Type>, des: string = "") {
     return new Protocol(name, code, type, des);
 }

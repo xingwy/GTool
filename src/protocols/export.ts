@@ -7,6 +7,7 @@ import * as GatewayProtocols from "./server/gateway";
 import * as CenterProtocols from "./server/center";
 import * as WorldProtocols from "./server/world";
 import * as ClientProtocols from "./server/client";
+import * as HttpProtocol from "./server/http";
 
 const createFromProtocol = (protocol: Protocol): string => {
     let desStr = "";
@@ -49,7 +50,7 @@ const builProtocol = (name: string, protocols: Array<any>): string => {
     return content;
 }
 
-const builInterface = (name: string, protocols: Array<any>): string => {
+const buildInterface = (name: string, protocols: Array<any>): string => {
     let content = "";
     Object.values(protocols).forEach((v: Protocol) => {
         content += `        [${name}ProtocolCode.${v.name}]: ${v.name};\n`
@@ -62,7 +63,7 @@ const buildEnum = (name: string, protocols: Array<any>): string => {
     let offset = 1;
     content += `    const enum ${name}ProtocolCode {\n`;
     Object.values(protocols).forEach((v: Protocol) => {
-        content += `        ${v.name} = 0x${(v.code + offset).toString(16)},`;
+        content += `        ${v.name} = 0x${(Number(v.code) + offset).toString(16)},`;
         offset++;
         if (v.des) {
             content += `  // ${v.des}`;
@@ -70,6 +71,28 @@ const buildEnum = (name: string, protocols: Array<any>): string => {
         content += `\n`;
     })
     content += `    }\n\n`;
+    return content;
+}
+
+const buildHttpPath = (name: string, protocols: Array<any>): string => {
+    let content = "";
+    content += `    const enum ${name}ProtocolPath {\n`;
+    Object.values(protocols).forEach((v: Protocol) => {
+        content += `        ${v.name} = "${(v.code).toString(16)}",`;
+        if (v.des) {
+            content += `  // ${v.des}`;
+        }
+        content += `\n`;
+    })
+    content += `    }\n\n`;
+    return content;
+}
+
+const buildHttpInterface = (name: string, protocols: Array<any>): string => {
+    let content = "";
+    Object.values(protocols).forEach((v: Protocol) => {
+        content += `        [${name}ProtocolPath.${v.name}]: ${v.name};\n`
+    })
     return content;
 }
 
@@ -89,19 +112,25 @@ export const run = async () => {
         content += builProtocol("Center", CenterProtocols as any);
         content += builProtocol("World", WorldProtocols as any);
         content += builProtocol("Client", ClientProtocols as any);
+        content += builProtocol("Http", HttpProtocol as any);
         
         // 导出类型类型enum
         content += buildEnum("Gateway",GatewayProtocols as any);
         content += buildEnum("Center",CenterProtocols as any);
         content += buildEnum("World",WorldProtocols as any);
         content += buildEnum("Client",ClientProtocols as any);
+        content += buildHttpPath("Http",HttpProtocol as any);
 
         // 导出interface
         content += `    interface ProtocolsTuple {\n`;
-        content += builInterface("Gateway", GatewayProtocols as any);
-        content += builInterface("Center",CenterProtocols as any);
-        content += builInterface("World",WorldProtocols as any);
-        content += builInterface("Client",ClientProtocols as any);
+        content += buildInterface("Gateway", GatewayProtocols as any);
+        content += buildInterface("Center",CenterProtocols as any);
+        content += buildInterface("World",WorldProtocols as any);
+        content += buildInterface("Client",ClientProtocols as any);
+        content += `    }\n\n`;
+
+        content += `    interface RequestTuple {\n`;
+        content += buildHttpInterface("Http",HttpProtocol as any);
         content += `    }\n`;
 
         tailStr += `}`

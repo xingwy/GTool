@@ -72,6 +72,22 @@ declare namespace Protocols {
     }
     type CreateUserReply = [number];
 
+    // 客户端创建账号
+    const enum CreateFields {
+        account = 0,
+        password = 1,
+        name = 2,
+        sex = 3,
+    }
+    type Create = [string, string, string, number];
+
+    // 客户端登录账号
+    const enum LoginFields {
+        account = 0,
+        password = 1,
+    }
+    type Login = [string, string];
+
     const enum GatewayProtocolCode {
         CreateUser = 0x100001,  // 网关创建账户
         GatewayAuthLogin = 0x100002,  // 网关登录验证
@@ -94,6 +110,11 @@ declare namespace Protocols {
         CreateUserReply = 0x900002,  // 创建用户返回
     }
 
+    const enum HttpProtocolPath {
+        Create = "/user/Create",  // 客户端创建账号
+        Login = "/user/Login",  // 客户端登录账号
+    }
+
     interface ProtocolsTuple {
         [GatewayProtocolCode.CreateUser]: CreateUser;
         [GatewayProtocolCode.GatewayAuthLogin]: GatewayAuthLogin;
@@ -105,5 +126,10 @@ declare namespace Protocols {
         [WorldProtocolCode.LoginWorld]: LoginWorld;
         [ClientProtocolCode.AuthUserLoginReply]: AuthUserLoginReply;
         [ClientProtocolCode.CreateUserReply]: CreateUserReply;
+    }
+
+    interface RequestTuple {
+        [HttpProtocolPath.Create]: Create;
+        [HttpProtocolPath.Login]: Login;
     }
 }
