@@ -1,4 +1,6 @@
 declare namespace Constants { 
+
+    const ProtocolsCodeMax = 0xFFFFFF;
     const enum ServicType {
         GatewayServic = 0x100000,   // 网关服务
         CenterServic = 0x200000,    // 中心服务
@@ -45,6 +47,7 @@ declare namespace Constants {
     const enum ModuleName {
         Human = "ModuleHuman",
         Bag = "ModuleBag",
+        AccountMgr = "AccountMgr",
     }
 
     const enum ConnectType {
