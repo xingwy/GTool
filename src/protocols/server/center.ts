@@ -11,3 +11,7 @@ export const CreateUserToCenter = register("CreateUserToCenter", CenterCode, [
 export const LoginCenter = register("LoginCenter", CenterCode, [
     number("uid", "角色ID"),
 ], "网关登录验证");
+
+export const WorldSendToCenter = register("WorldSendToCenter", CenterCode, [
+    number("code", "代码"),
+], "世界服发往中心服");
