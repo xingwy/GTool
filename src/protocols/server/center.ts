@@ -15,3 +15,11 @@ export const LoginCenter = register("LoginCenter", CenterCode, [
 export const WorldSendToCenter = register("WorldSendToCenter", CenterCode, [
     number("code", "代码"),
 ], "世界服发往中心服");
+
+export const WaitWorldSendToCenter = register("WaitWorldSendToCenter", CenterCode, [
+    number("code", "代码"),
+], "世界服发往中心服");
+
+export const WaitCenterSendToWorldReply = register("WaitCenterSendToWorldReply", CenterCode, [
+    number("code", "代码"),
+], "世界服发往中心服 reply");
