@@ -85,7 +85,7 @@ declare namespace Protocols {
         uids = 2,
         content = 3,
     }
-    type SendChat = [number, number, Array<uid>, string];
+    type SendChat = [number, number, Array<number>, string];
 
     // 中心服发往世界服
     const enum CenterSendToWorldFields {

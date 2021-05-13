@@ -17,9 +17,28 @@ export const string = function(name: string, des: string = ""): Type {
 }
 
 // 数组
-export const array = function(type: Type): Function {
-    return (name: string, des: string = ""): Type => {
-        return new Type(name, "array", des, [type]);  
+export const array = function(type: Type | any): Function {
+    switch (type) {
+        case number: {
+            return (name: string, des: string = ""): Type => {
+                return new Type(name, "array", des, [new Type("number", "number", "")]);  
+            };
+        }
+        case string: {
+            return (name: string, des: string = ""): Type => {
+                return new Type(name, "array", des, [new Type("string", "string", "")]);  
+            };
+        }
+        case boolean: {
+            return (name: string, des: string = ""): Type => {
+                return new Type(name, "array", des, [new Type("boolean", "boolean", "")]);  
+            };
+        }
+        default: {
+            return (name: string, des: string = ""): Type => {
+                return new Type(name, "array", des, [type]);  
+            };
+        }
     }
 }
 

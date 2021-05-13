@@ -11,7 +11,7 @@ export const LoginWorld = register("LoginWorld", WorldCode, [
 export const SendChat = register("SendChat", WorldCode, [
     number("sender", "发送者"),
     number("channel", "频道"),
-    array(number("uid"))("uids", "接收者ID, 发送给指定的人使用"),
+    array(number)("uids", "接收者ID, 发送给指定的人使用"),
     string("content", "聊天内容"),
 ], "聊天消息");
 
