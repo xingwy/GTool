@@ -47,3 +47,19 @@ export const Bag = tuple(
     "背包模型",
     "Bag",
 )
+
+export const WorldChatMgr = tuple(
+    "WorldChatMgr",
+    [
+    ],
+    "世界服聊天",
+    "WorldChatMgr",
+)
+
+export const WorldUserMgr = tuple(
+    "WorldUserMgr",
+    [
+    ],
+    "世界服用户",
+    "WorldUserMgr",
+)
