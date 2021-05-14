@@ -41,6 +41,7 @@ declare namespace Constants {
         WrongPassword = 3,  // 密码错误
         UserNotExist = 4,   // 角色不存在
         ModuleNotExist = 5,  // 找不到对应模块
+        ChannelTypeError = 6,  // 聊天频道错误
     }
 
     const enum SexType {
