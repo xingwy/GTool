@@ -48,9 +48,30 @@ export const Bag = tuple(
     "Bag",
 )
 
+export const ChatRecord = tuple(
+    "ChatRecord",
+    [
+        number("sender", "发送者ID"),
+        number("channel", "频道类型"),
+        string("content", "内容"),
+        number("receiver", "接收者"),
+    ],
+    "聊天记录",
+)
+
+export const ChatRecords = tuple(
+    "ChatRecords",
+    [
+        number("channel", "频道"),
+        array(ChatRecord)("records", "频道聊天记录")
+    ],
+    "频道聊天记录",
+)
+
 export const WorldChatMgr = tuple(
     "WorldChatMgr",
     [
+        array(ChatRecords)("chatRecords", "所有聊天记录"),
     ],
     "世界服聊天",
     "WorldChatMgr",
