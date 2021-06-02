@@ -16,6 +16,9 @@ export const GatewayAuthLogin = register("GatewayAuthLogin", GatewayCode, [
 
 export const LoginCenterReply = register("LoginCenterReply", GatewayCode, [
     number("code", "错误码"),
+    number("uid", "用户ID"),
+    string("name", "姓名"),
+    number("sex", "性别"),
 ], "登录中心服返回");
 
 export const CreateUserToCenterReply = register("CreateUserToCenterReply", GatewayCode, [
