@@ -74,6 +74,22 @@ const buildEnum = (name: string, protocols: Array<any>): string => {
     return content;
 }
 
+const buildClientEnum = (name: string, protocols: Array<any>): string => {
+    let content = "";
+    let offset = 1;
+    content += `    enum ${name}ProtocolCode {\n`;
+    Object.values(protocols).forEach((v: Protocol) => {
+        content += `        ${v.name} = 0x${(Number(v.code) + offset).toString(16)},`;
+        offset++;
+        if (v.des) {
+            content += `  // ${v.des}`;
+        }
+        content += `\n`;
+    })
+    content += `    };\n\n`;
+    return content;
+}
+
 const buildHttpPath = (name: string, protocols: Array<any>): string => {
     let content = "";
     content += `    const enum ${name}ProtocolPath {\n`;
@@ -96,7 +112,7 @@ const buildHttpInterface = (name: string, protocols: Array<any>): string => {
     return content;
 }
 
-export const run = async () => {
+const exportServer = async () => {
     try {
         // 包装头、尾
         let headStr = "";
@@ -141,4 +157,41 @@ export const run = async () => {
     } catch (e) {
         console.error(`导出协议模型出错，error:${e.message}, stack:${e.stack}`);
     }
+}
+
+const exportClient = async () => {
+    try {
+        // 包装头、尾
+        let headStr = "";
+        let tailStr = "";
+        let content = "";
+        
+        headStr += `#ifndef PROTOCOL_H\n`;
+        headStr += `#define PROTOCOL_H\n\n`;
+        
+        headStr += `/**\n`;
+        headStr += ` * 协议约定模型文件\n`;
+        headStr += ` */\n\n`;
+        headStr += `namespace Protocols {\n`;
+        headStr += `\n`;
+        // 导出类型类型enum
+        content += buildClientEnum("Gateway",GatewayProtocols as any);
+        content += buildClientEnum("Center",CenterProtocols as any);
+        content += buildClientEnum("World",WorldProtocols as any);
+        content += buildClientEnum("Client",ClientProtocols as any);
+
+        tailStr += `}\n\n`;
+        tailStr += `#endif // PROTOCOL_H`;
+
+        let dir = path.join(__filename, "../../../export/protocol.h");
+        await write(dir, headStr + content + tailStr);
+        console.info(`已经导出文件：${dir}`);
+    } catch (e) {
+        console.error(`导出协议模型出错，error:${e.message}, stack:${e.stack}`);
+    }
+}
+
+export const run = async () => {
+    await exportServer();
+    await exportClient();
 }
